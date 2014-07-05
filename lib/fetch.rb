@@ -1,4 +1,4 @@
-require 'useragent'
+require 'user_agent_parser'
 module UserAgents
   def fetch
     require 'nokogiri'
@@ -13,18 +13,20 @@ module UserAgents
         'http://www.useragentstring.com/pages/Safari/'
     ]
 
+    parser = UserAgentParser::Parser.new
+
     agents = urls.inject([]) do |sum, url|
       puts "Requesting #{url}"
       doc  = Nokogiri::HTML(open(url))
       doc.css('#liste ul li a').each do|link|
         str = link.content.strip
-        agent = UserAgent.parse(str)
-        case agent.browser
-          when "Chrome"           ; sum.push(str) if agent.version && agent.version >= '15'
-          when "Firefox"          ; sum.push(str) if agent.version && agent.version >= '9'
-          when "Internet Explorer"; sum.push(str) if agent.version && agent.version >= '7'
-          when "Opera"            ; sum.push(str) if agent.version && agent.version >= '10'
-          when "Safari"           ; sum.push(str) if agent.version && agent.version >= '5'
+        agent = parser.parse(str)
+        case agent.name
+          when "Chrome"           ; sum.push(str) if agent.version && agent.version.major >= '20'
+          when "Firefox"          ; sum.push(str) if agent.version && agent.version.major >= '20'
+          when "IE"               ; sum.push(str) if agent.version && agent.version.major >= '9'
+          when "Opera"            ; sum.push(str) if agent.version && agent.version.major >= '10'
+          when "Safari"           ; sum.push(str) if agent.version && agent.version.major >= '5'
         end
       end
       sum
