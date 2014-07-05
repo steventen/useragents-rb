@@ -9,7 +9,7 @@ module UserAgents
         'http://www.useragentstring.com/pages/Chrome/',
         'http://www.useragentstring.com/pages/Firefox/',
         'http://www.useragentstring.com/pages/Internet%20Explorer/',
-        'http://www.useragentstring.com/pages/Opera/',
+        # 'http://www.useragentstring.com/pages/Opera/',
         'http://www.useragentstring.com/pages/Safari/'
     ]
 
@@ -25,7 +25,7 @@ module UserAgents
           when "Chrome"           ; sum.push(str) if agent.version && agent.version.major >= '20'
           when "Firefox"          ; sum.push(str) if agent.version && agent.version.major >= '20'
           when "IE"               ; sum.push(str) if agent.version && agent.version.major >= '9'
-          when "Opera"            ; sum.push(str) if agent.version && agent.version.major >= '10'
+          # when "Opera"            ; sum.push(str) if agent.version && agent.version.major >= '10'
           when "Safari"           ; sum.push(str) if agent.version && agent.version.major >= '5'
         end
       end
